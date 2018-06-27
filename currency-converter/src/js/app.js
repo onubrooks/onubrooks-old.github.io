@@ -82,5 +82,5 @@ window.addEventListener("load", (event) => {
 
   window.controller = new PageController(inputCurrValNode, inputCurrUnitNode, outputCurrValNode, outputCurrUnitNode, convertButton);
   controller.init();
-  console.log("All resources finished loading and page controller initialized!");
+  console.log("All resources fully loaded and page controller initialized!");
 });
