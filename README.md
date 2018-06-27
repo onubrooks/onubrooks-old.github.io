@@ -6,8 +6,14 @@ It uses plain javascript and foundation css library. No other external libraries
 
 As indicated in the website: https://free.currencyconverterapi.com/, the currency converter API is free and licenced under the MIT license
 
-### Using the app
+### Setting Up the app
+the source files are written in ES2015 and are in the currency-converter/src folder
+babel cli is used to convert to ES5 and outputted in the currency-converter/dist folder using the following commands:
+yarn global add babel-cli
+yarn add --dev babel-core babel-preset-es2015
+babel currency-converter/src --presets es2015 --out-dir currency-converter/dist
 
+### Using the app
 
 
 ## Troubleshooting
