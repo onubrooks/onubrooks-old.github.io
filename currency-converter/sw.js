@@ -1,32 +1,32 @@
 var staticCacheName = 'curr-conv-static-v1';
-var contentImgsCache = "curr-conv-imgs";
+var urlsToCache = [
+  "/",
+  "/css/foundation.min.css",
+  "/css/app.css",
+  "/js/app.js",
+  "/js/idb.js",
+  "/img/loader.gif"
+];
 var allCaches = [
-  staticCacheName,
-  contentImgsCache
+  staticCacheName
 ];
 
-self.addEventListener('install', function (event) {
+self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(staticCacheName).then(function (cache) {
-      return cache.addAll([
-        '/skeleton',
-        'js/app.js',
-        'css/app.css',
-        'imgs/icon.png',
-        'https://fonts.gstatic.com/s/roboto/v15/2UX7WLTfW3W8TclTUvlFyQ.woff',
-        'https://fonts.gstatic.com/s/roboto/v15/d-6IYplOFocCacKzxwXSOD8E0i7KZn-EPnyo3HZu7kw.woff'
-      ]);
+    caches.open(staticCacheName).then((cache) => {
+      return cache.addAll(urlsToCache);
     })
   );
 });
 
-self.addEventListener('activate', function (event) {
+self.addEventListener('activate', (event) => {
+  // delete all caches whose name starts with given prefix and are not in the allCaches array
   event.waitUntil(
-    caches.keys().then(function (cacheNames) {
+    caches.keys().then((cacheNames) => {
       return Promise.all(
-        cacheNames.filter(function (cacheName) {
-          return cacheName.startsWith("curr-conv-") && !allCaches.includes(cacheName);
-        }).map(function (cacheName) {
+        cacheNames.filter((cacheName) => {
+          return cacheName.startsWith('curr-conv-static') && !allCaches.includes(cacheName);
+        }).map((cacheName) => {
           return caches.delete(cacheName);
         })
       );
@@ -34,51 +34,28 @@ self.addEventListener('activate', function (event) {
   );
 });
 
-self.addEventListener('fetch', function (event) {
-  var requestUrl = new URL(event.request.url);
+self.addEventListener('fetch', (event) => {
+  // the commented section of code below can be used to load a skeleton of the app but 
+  // wont be necessary since the site is fairly light and most of the content is static
+  // var requestUrl = new URL(event.request.url);
 
-  if (requestUrl.origin === location.origin) {
-    if (requestUrl.pathname === '/') {
-      event.respondWith(caches.match('/skeleton'));
-      return;
-    }
+  // if (requestUrl.origin === location.origin) {
+  //   if (requestUrl.pathname === '/') {
+  //     event.respondWith(caches.match('/skeleton'));
+  //     return;
+  //   }
+  // }
 
-    // TODO: respond to xxx urls by responding with
-    // the return value of serveXXX(event.request)
-    if (requestUrl.pathname.startsWith("/xxx/")) {
-      event.respondWith(serveXXX(event.request));
-      return;
-    }
-  }
-
+  
   event.respondWith(
-    caches.match(event.request).then(function (response) {
+    caches.match(event.request).then((response) => {
       return response || fetch(event.request);
     })
   );
 });
 
-function serveXXX(request) {
-  // xxx urls look like:
-  // xxx/sam-2x.jpg
-  var storageUrl = request.url.replace(/-\dx\.jpg$/, '');
-
-  // TODO: return images from the "curr-conv-" cache
-  // if they're in there. But afterwards, go to the network
-  // to update the entry in the cache.
-
-  return caches.open(staticCacheName).then(function(cache) {
-    return cache.match(storageUrl).then(function(response) {
-      var networkFetch = fetch(storageUrl).then(function(networkResponse) {
-        cache.put(storageUrl, networkResponse.clone());
-        return networkResponse;
-      });
-      return response || networkFetch;
-    });
-  });
-}
-
-self.addEventListener('message', function (event) {
+self.addEventListener('message', (event) => {
+  console.log('Testing Push Message...');
   if (event.data.action === 'skipWaiting') {
     self.skipWaiting();
   }
