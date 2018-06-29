@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://onubrooks.github.io.git"
+    "url": "git+https://github.com/onubrooks/onubrooks.github.io"
   },
   "author": "abah onu",
   "license": "ISC",
   "bugs": {
-    "url": "https://onubrooks.github.io/issues"
+    "url": "https://github.com/onubrooks/onubrooks.github.io/issues"
   },
-  "homepage": "https://onubrooks.github.io#readme",
+  "homepage": "https://github.com/onubrooks/onubrooks.github.io",
   "dependencies": {
     "express": "^4.16.3",
     "idb": "^2.1.3",
