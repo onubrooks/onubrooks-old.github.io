@@ -11,7 +11,7 @@ the source files are written in ES2015 and are in the currency-converter/src fol
 babel cli is used to convert to ES5 and outputted in the currency-converter/dist folder using the following commands:
 yarn global add babel-cli
 yarn add --dev babel-core babel-preset-es2015
-babel currency-converter/src --presets es2015 --out-dir currency-converter/dist
+babel /src --presets es2015 --out-dir /dist
 
 ### Using the app
 

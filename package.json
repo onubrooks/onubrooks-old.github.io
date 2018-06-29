@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/onubrooks/ALC-currency-converter.git"
+    "url": "git+https://onubrooks.github.io.git"
   },
   "author": "abah onu",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/onubrooks/ALC-currency-converter/issues"
+    "url": "https://onubrooks.github.io/issues"
   },
-  "homepage": "https://github.com/onubrooks/ALC-currency-converter#readme",
+  "homepage": "https://onubrooks.github.io#readme",
   "dependencies": {
     "express": "^4.16.3",
     "idb": "^2.1.3",

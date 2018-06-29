@@ -1,18 +1,18 @@
 var staticCacheName = 'curr-conv-static-v1';
 var urlsToCache = [
   "/",
-  "/css/foundation.min.css",
-  "/css/app.css",
-  "/js/app.js",
-  "/js/idb.js",
-  "/img/loader.gif"
+  "/dist/css/foundation.min.css",
+  "/dist/css/app.css",
+  "/dist/js/app.js",
+  "/dist/js/idb.js",
+  "/dist/img/loader.gif"
 ];
 var allCaches = [
   staticCacheName
 ];
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(
+  event.waitUntil( 
     caches.open(staticCacheName).then((cache) => {
       return cache.addAll(urlsToCache);
     })

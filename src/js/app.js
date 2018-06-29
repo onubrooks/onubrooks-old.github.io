@@ -1,4 +1,9 @@
-// import idb from "idb";
+/**
+ * This is the source javascript file that controls the page, source is written in ES6
+ * I use babel to transpile to ES5 and output it in the dist folder: 
+ * babel src --presets es2015 --out-dir dist
+ * 
+ */
 
 class PageController {
   constructor(inputCurrValNode, inputCurrUnitNode, outputCurrValNode, outputCurrUnitNode, convertButton) {

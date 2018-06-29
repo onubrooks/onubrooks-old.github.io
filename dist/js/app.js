@@ -4,18 +4,23 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-// import idb from "idb";
+/**
+ * This is the source javascript file that controls the page, source is written in ES6
+ * I use babel to transpile to ES5 and output it in the dist folder: 
+ * babel src --presets es2015 --out-dir dist
+ * 
+ */
 
 var PageController = function () {
   function PageController(inputCurrValNode, inputCurrUnitNode, outputCurrValNode, outputCurrUnitNode, convertButton) {
     _classCallCheck(this, PageController);
 
-    // initialise nodes for the page input elements
-    this.inputCurrValNode = inputCurrValNode; // document.getElementById('input-cur-val');
-    this.inputCurrUnitNode = inputCurrUnitNode; // document.getElementById("input-cur-unit");
-    this.outputCurrValNode = outputCurrValNode; // document.getElementById("output-cur-val");
-    this.outputCurrUnitNode = outputCurrUnitNode; // document.getElementById("output-cur-unit");
-    this.convertButton = convertButton; // document.getElementById("convert-button");
+    // initialise nodes for the page input controls
+    this.inputCurrValNode = inputCurrValNode;
+    this.inputCurrUnitNode = inputCurrUnitNode;
+    this.outputCurrValNode = outputCurrValNode;
+    this.outputCurrUnitNode = outputCurrUnitNode;
+    this.convertButton = convertButton;
   }
 
   // this method sets up the event listeners and service worker
@@ -34,7 +39,7 @@ var PageController = function () {
       this.dbPromise = this.openDb();
     }
 
-    // this mathod is called when the convert button is pressed, it makes the API call
+    // this method is called when the convert button is pressed, it makes the API call
     // to the free currency converter API and updates the value of the output
 
   }, {
@@ -42,7 +47,6 @@ var PageController = function () {
     value: function fetchValue() {
       var _this = this;
 
-      console.log('button pressed!');
       var loader = document.getElementById('loader');
       loader.classList.remove('hide');
       this.convertButton.value = "Converting";
@@ -83,7 +87,7 @@ var PageController = function () {
       if (!'serviceWorker' in navigator) return Promise.resolve();
 
       return idb.open('curr-conv-db', 1, function (upgradeDb) {
-        // call the db currency_pairs since we will be storing pairs of currencies as keys with their values
+        // call the db table currency_pairs since we will be storing pairs of currencies as keys with their values
         var keyValStore = upgradeDb.createObjectStore('currency_pairs');
       });
     }
@@ -105,7 +109,6 @@ var PageController = function () {
             return cursor.continue().then(deleteRest);
           });
         });
-        // return tx.complete;
       });
     }
 
@@ -121,6 +124,9 @@ var PageController = function () {
         return store.get(query);
       });
     }
+
+    // this function takes the value retrieved from the indexedDB store and updates the page with it
+
   }, {
     key: 'fromDB',
     value: function fromDB(val) {
@@ -131,6 +137,10 @@ var PageController = function () {
       this.convertButton.value = "Convert";
       console.log('fromDB returns ' + val);
     }
+
+    // this function is called only if the local indexedDB returns no value
+    // it makes the api call, returns the value and stores the result in indexedDB for future use
+
   }, {
     key: 'fromAPI',
     value: function fromAPI(query) {
