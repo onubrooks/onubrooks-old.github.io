@@ -5,7 +5,7 @@ var urlsToCache = [
   "/dist/css/app.css",
   "/dist/js/app.js",
   "/dist/js/idb.js",
-  "/dist/img/loader.gif"
+  "/dist/img/loader.gif",
 ];
 var allCaches = [
   staticCacheName

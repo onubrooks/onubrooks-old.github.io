@@ -1,7 +1,7 @@
 .main{
   margin: auto;
-  height: 250px;
-  width: 700px;
+  height: 40%;
+  width: 50%;
   background-color: aquamarine;
 }
 .main > h1{
