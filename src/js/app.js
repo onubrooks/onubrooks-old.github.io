@@ -2,12 +2,12 @@
 
 class PageController {
   constructor(inputCurrValNode, inputCurrUnitNode, outputCurrValNode, outputCurrUnitNode, convertButton) {
-    // initialise nodes for the page input elements
-    this.inputCurrValNode = inputCurrValNode; // document.getElementById('input-cur-val');
-    this.inputCurrUnitNode = inputCurrUnitNode; // document.getElementById("input-cur-unit");
-    this.outputCurrValNode = outputCurrValNode; // document.getElementById("output-cur-val");
-    this.outputCurrUnitNode = outputCurrUnitNode; // document.getElementById("output-cur-unit");
-    this.convertButton = convertButton; // document.getElementById("convert-button");
+    // initialise nodes for the page input controls
+    this.inputCurrValNode = inputCurrValNode;
+    this.inputCurrUnitNode = inputCurrUnitNode;
+    this.outputCurrValNode = outputCurrValNode;
+    this.outputCurrUnitNode = outputCurrUnitNode;
+    this.convertButton = convertButton;
   }
 
   // this method sets up the event listeners and service worker
@@ -22,10 +22,9 @@ class PageController {
     this.dbPromise = this.openDb();
   }
 
-  // this mathod is called when the convert button is pressed, it makes the API call
+  // this method is called when the convert button is pressed, it makes the API call
   // to the free currency converter API and updates the value of the output
   fetchValue() {
-    console.log('button pressed!');
     let loader = document.getElementById('loader');
     loader.classList.remove('hide');
     this.convertButton.value = "Converting";
@@ -61,7 +60,7 @@ class PageController {
     if (!'serviceWorker' in navigator) return Promise.resolve();
 
     return idb.open('curr-conv-db', 1, (upgradeDb) => {
-      // call the db currency_pairs since we will be storing pairs of currencies as keys with their values
+      // call the db table currency_pairs since we will be storing pairs of currencies as keys with their values
       let keyValStore = upgradeDb.createObjectStore('currency_pairs');
     });
   }
@@ -80,7 +79,6 @@ class PageController {
           return cursor.continue().then(deleteRest);
         });
       });
-      // return tx.complete;
     });
   }
 
@@ -94,6 +92,7 @@ class PageController {
     });
   }
 
+  // this function takes the value retrieved from the indexedDB store and updates the page with it
   fromDB(val) {
     let total = val * this.inputCurrValNode.value;
     let result = Math.round(total * 100) / 100;
@@ -103,6 +102,8 @@ class PageController {
     console.log(`fromDB returns ${val}`);
   }
 
+  // this function is called only if the local indexedDB returns no value
+  // it makes the api call, returns the value and stores the result in indexedDB for future use
   fromAPI(query) {
     let url = `https://free.currencyconverterapi.com/api/v5/convert?q=${query}&compact=ultra`;
     let JSONResponse = fetch(url)
